@@ -1,0 +1,35 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_DATABASE: BookMarkDB
+    ports:
+      - "3309:3306"
+    networks:
+      - my-network
+
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring-app-container
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url"  : "jdbc:mysql://mysql-container:3306/BookMarkDB?useSSL=false",
+        "spring.datasource.username" : "root",
+        "spring.datasource.password" : "",
+        
+        "spring.jpa.hibernate.ddl-auto" : "update" }'
+      
+    depends_on:
+      - mysql
+    networks:
+      - my-network
+
+networks:
+  my-network:

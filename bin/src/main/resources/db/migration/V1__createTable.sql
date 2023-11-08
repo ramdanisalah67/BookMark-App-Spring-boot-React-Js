@@ -1,0 +1,6 @@
+CREATE TABLE book_mark (
+    Id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP
+);  
